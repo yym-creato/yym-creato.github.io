@@ -1,0 +1,160 @@
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>即刻待办</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- 配置Tailwind自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        apple: {
+                            blue: '#0071e3',
+                            gray: '#f5f5f7',
+                            text: '#1d1d1f',
+                            subtext: '#6e6e73'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            }
+            .card-hover {
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+        }
+    </style>
+</head>
+<body class="bg-apple-gray min-h-screen font-sans">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-check-square-o text-apple-blue text-xl"></i>
+                <span class="text-apple-text font-medium text-lg">即刻待办</span>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="#" class="text-apple-text hover:text-apple-blue transition-colors" aria-label="搜索">
+                    <i class="fa fa-search text-lg"></i>
+                </a>
+                <a href="#" class="text-apple-text hover:text-apple-blue transition-colors" aria-label="用户中心">
+                    <i class="fa fa-user-o text-lg"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区 -->
+    <main class="container mx-auto px-4 py-12 md:py-20">
+        <!-- 页面标题 -->
+        <div class="text-center mb-16">
+            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-apple-text leading-tight mb-4">
+                即刻待办
+            </h1>
+            <p class="text-apple-subtext text-[clamp(1rem,2vw,1.25rem)] max-w-2xl mx-auto">
+                完成待办，养成好习惯，在即刻，即刻开始!
+            </p>
+        </div>
+        
+        <!-- 卡片区域 - 苹果风格的卡片布局 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <!-- 卡片1 - 链接到任务管理页面 -->
+            <div class="bg-white rounded-2xl shadow-sm p-8 card-hover">
+                <div class="w-12 h-12 bg-apple-blue/10 rounded-full flex items-center justify-center mb-6">
+                    <i class="fa fa-list-ul text-apple-blue text-xl"></i>
+                </div>
+                <h2 class="text-2xl font-semibold text-apple-text mb-3">任务管理</h2>
+                <p class="text-apple-subtext mb-6">轻松创建、组织和跟踪你的待办事项，让每一天都更有效率。</p>
+                <!-- 添加链接到 task-management.html -->
+                <a href="task_management.html" class="inline-flex items-center text-apple-blue font-medium hover:underline">
+                    开始使用
+                    <i class="fa fa-arrow-right ml-2 text-sm"></i>
+                </a>
+            </div>
+            
+            <!-- 卡片2 - 链接到习惯养成页面 -->
+            <div class="bg-white rounded-2xl shadow-sm p-8 card-hover">
+                <div class="w-12 h-12 bg-apple-blue/10 rounded-full flex items-center justify-center mb-6">
+                    <i class="fa fa-calendar-check-o text-apple-blue text-xl"></i>
+                </div>
+                <h2 class="text-2xl font-semibold text-apple-text mb-3">习惯养成</h2>
+                <p class="text-apple-subtext mb-6">设定每日目标，跟踪完成情况，逐步培养积极向上的生活习惯。</p>
+                <!--添加链接到 habit-building.html -->
+                <a href="habit_building.html" class="inline-flex items-center text-apple-blue font-medium hover:underline">
+                    开始使用
+                    <i class="fa fa-arrow-right ml-2 text-sm"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- 特色区域 -->
+        <div class="mt-20 max-w-4xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-semibold text-apple-text text-center mb-12">为什么选择即刻待办</h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="text-center p-4">
+                    <div class="w-16 h-16 bg-apple-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-bolt text-apple-blue text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium text-apple-text mb-2">简洁高效</h3>
+                    <p class="text-apple-subtext text-sm">无多余干扰，专注于任务本身</p>
+                </div>
+                
+                <div class="text-center p-4">
+                    <div class="w-16 h-16 bg-apple-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-sync text-apple-blue text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium text-apple-text mb-2">全平台同步</h3>
+                    <p class="text-apple-subtext text-sm">在所有设备上访问你的待办事项</p>
+                </div>
+                
+                <div class="text-center p-4">
+                    <div class="w-16 h-16 bg-apple-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-line-chart text-apple-blue text-2xl"></i>
+                    </div>
+                    <h3 class="font-medium text-apple-text mb-2">进度追踪</h3>
+                    <p class="text-apple-subtext text-sm">清晰了解自己的完成情况</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部导航 -->
+    <footer class="bg-white border-t border-gray-200 mt-20 py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fa fa-check-square-o text-apple-blue"></i>
+                    <span class="text-apple-text font-medium">即刻待办</span>
+                </div>
+                
+                <div class="text-apple-subtext text-sm">
+                    © 2025 即刻待办. 保留所有权利.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</body></html>

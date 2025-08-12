@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>习惯养成 - 即刻待办</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- 配置Tailwind自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        apple: {
+                            blue: '#0071e3',
+                            gray: '#f5f5f7',
+                            text: '#1d1d1f',
+                            subtext: '#6e6e73'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .streak-dot {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+            }
+            .streak-dot.completed {
+                background-color: #0071e3;
+            }
+            .streak-dot.missed {
+                background-color: #d1d5db;
+            }
+            .streak-dot.future {
+                background-color: #f3f4f6;
+            }
+            .habit-card {
+                transition: all 0.3s ease;
+            }
+            .habit-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            }
+        }
+    </style>
+</head>
+<body class="bg-apple-gray min-h-screen font-sans">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-apple-text hover:text-apple-blue transition-colors">
+                    <i class="fa fa-arrow-left text-lg"></i>
+                </a>
+                <i class="fa fa-check-square-o text-apple-blue text-xl"></i>
+                <span class="text-apple-text font-medium text-lg">即刻待办</span>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="#" class="text-apple-text hover:text-apple-blue transition-colors" aria-label="搜索">
+                    <i class="fa fa-search text-lg"></i>
+                </a>
+                <a href="#" class="text-apple-text hover:text-apple-blue transition-colors" aria-label="用户中心">
+                    <i class="fa fa-user-o text-lg"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区 -->
+    <main class="container mx-auto px-4 py-8 md:py-12">
+        <!-- 页面标题 -->
+        <div class="mb-8">
+            <h1 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-apple-text leading-tight">
+                习惯养成
+            </h1>
+            <p class="text-apple-subtext mt-2">培养好习惯，成就更好的自己</p>
+        </div>
+        
+        <!-- 添加新习惯 -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 mb-8">
+            <h3 class="text-lg font-medium text-apple-text mb-4">添加新习惯</h3>
+            <div class="flex flex-col md:flex-row gap-4">
+                <input
+                    type="text"
+                    id="newHabitName"
+                    class="task-input flex-1 border border-gray-300 rounded-xl px-4 py-2 focus:outline-none"
+                    placeholder="输入习惯名称（如：每日阅读）"
+                />
+                <input
+                    type="text"
+                    id="newHabitDesc"
+                    class="task-input flex-1 border border-gray-300 rounded-xl px-4 py-2 focus:outline-none"
+                    placeholder="描述（如：每天阅读30分钟）"
+                />
+                <button
+                    id="addHabitBtn"
+                    class="bg-apple-blue text-white px-6 py-2 rounded-xl hover:bg-apple-blue/90 transition-colors"
+                >
+                    创建习惯
+                </button>
+            </div>
+        </div>
+        
+        <!-- 我的习惯列表 -->
+        <div class="space-y-6">
+            <h2 class="text-xl font-semibold text-apple-text">我的习惯</h2>
+            
+            <div id="habitList">
+                <!-- 习惯会通过JavaScript动态添加到这里 -->
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部导航 -->
+    <footer class="bg-white border-t border-gray-200 py-4 fixed bottom-0 left-0 right-0 md:hidden">
+        <div class="flex justify-around">
+            <a href="index.html" class="flex flex-col items-center py-2 text-apple-subtext">
+                <i class="fa fa-home text-lg"></i>
+                <span class="text-xs mt-1">首页</span>
+            </a>
+            <a href="task-management.html" class="flex flex-col items-center py-2 text-apple-subtext">
+                <i class="fa fa-list-ul text-lg"></i>
+                <span class="text-xs mt-1">任务</span>
+            </a>
+            <a href="habit-building.html" class="flex flex-col items-center py-2 text-apple-blue">
+                <i class="fa fa-calendar text-lg"></i>
+                <span class="text-xs mt-1">习惯</span>
+            </a>
+            <a href="#" class="flex flex-col items-center py-2 text-apple-subtext">
+                <i class="fa fa-user-o text-lg"></i>
+                <span class="text-xs mt-1">我的</span>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // 存储习惯数据的数组
+        let habits = [];
+        const habitList = document.getElementById('habitList');
+        const addHabitBtn = document.getElementById('addHabitBtn');
+        const newHabitName = document.getElementById('newHabitName');
+        const newHabitDesc = document.getElementById('newHabitDesc');
+
+        // 初始化：从本地存储加载习惯数据
+        function init() {
+            const savedHabits = localStorage.getItem('habits');
+            if (savedHabits) {
+                habits = JSON.parse(savedHabits);
+                renderHabits();
+            } else {
+                // 添加默认习惯作为示例
+                habits = [
+                    {
+                        id: Date.now() - 10000,
+                        name: "每日阅读",
+                        description: "每天阅读30分钟",
+                        streak: 7,
+                        history: [true, true, true, true, true, true, true]
+                    },
+                    {
+                        id: Date.now() - 5000,
+                        name: "晨跑",
+                        description: "每天早晨跑步20分钟",
+                        streak: 2,
+                        history: [false, false, true, true, false, false, false]
+                    }
+                ];
+                saveHabits();
+                renderHabits();
+            }
+        }
+
+        // 渲染所有习惯到页面
+        function renderHabits() {
+            habitList.innerHTML = '';
+            
+            if (habits.length === 0) {
+                habitList.innerHTML = `
+                    <div class="text-center py-12 bg-white rounded-2xl shadow-sm">
+                        <i class="fa fa-lightbulb-o text-4xl text-apple-blue/50 mb-4"></i>
+                        <p class="text-apple-subtext">还没有创建任何习惯，开始添加吧！</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            habits.forEach(habit => {
+                const habitCard = document.createElement('div');
+                habitCard.className = 'bg-white rounded-2xl shadow-sm p-6 habit-card';
+                habitCard.dataset.id = habit.id;
+                
+                // 生成一周的打卡记录
+                const weekdays = ['一', '二', '三', '四', '五', '六', '日'];
+                let historyHtml = '';
+                
+                habit.history.forEach((completed, index) => {
+                    const statusClass = completed ? 'completed' : 
+                                      (index < new Date().getDay() ? 'missed' : 'future');
+                    historyHtml += `
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs text-apple-subtext mb-1">${weekdays[index]}</span>
+                            <div class="streak-dot ${statusClass}"></div>
+                        </div>
+                    `;
+                });
+                
+                habitCard.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-lg font-medium text-apple-text">${habit.name}</h3>
+                            <p class="text-apple-subtext text-sm">${habit.description}</p>
+                        </div>
+                        <span class="bg-apple-blue/10 text-apple-blue text-sm px-3 py-1 rounded-full">
+                            连续${habit.streak}天
+                        </span>
+                    </div>
+                    
+                    <!-- 习惯打卡记录 -->
+                    <div class="mb-4">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-xs text-apple-subtext">打卡记录</span>
+                            <span class="text-xs text-apple-text">本周</span>
+                        </div>
+                        <div class="flex justify-between">
+                            ${historyHtml}
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3">
+                        <button class="flex-1 bg-apple-blue text-white py-3 rounded-xl hover:bg-apple-blue/90 transition-colors打卡-btn" 
+                                onclick="checkHabit(${habit.id})">
+                            今日打卡
+                        </button>
+                        <button class="bg-gray-100 text-apple-subtext py-3 px-4 rounded-xl hover:bg-gray-200 transition-colors"
+                                onclick="deleteHabit(${habit.id})">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                habitList.appendChild(habitCard);
+            });
+        }
+
+        // 保存习惯数据到本地存储
+        function saveHabits() {
+            localStorage.setItem('habits', JSON.stringify(habits));
+        }
+
+        // 添加新习惯
+        function addHabit() {
+            const name = newHabitName.value.trim();
+            const description = newHabitDesc.value.trim();
+            
+            if (!name) {
+                alert('请输入习惯名称');
+                return;
+            }
+            
+            const newHabit = {
+                id: Date.now(),
+                name: name,
+                description: description || '每日坚持',
+                streak: 0,
+                history: Array(7).fill(false) // 初始化一周的记录
+            };
+            
+            habits.push(newHabit);
+            saveHabits();
+            renderHabits();
+            
+            // 清空输入框
+            newHabitName.value = '';
+            newHabitDesc.value = '';
+        }
+
+        // 打卡习惯
+        function checkHabit(id) {
+            const today = new Date().getDay() || 7; // 转换为1-7表示周一到周日
+            const index = today - 1; // 转换为0-6的索引
+            
+            const habit = habits.find(h => h.id === id);
+            if (habit) {
+                // 如果今天已经打卡，提示用户
+                if (habit.history[index]) {
+                    alert('今天已经打卡了哦！');
+                    return;
+                }
+                
+                // 更新打卡状态
+                habit.history[index] = true;
+                
+                // 更新连续打卡天数
+                let newStreak = 0;
+                // 从今天开始向前检查连续打卡天数
+                for (let i = 0; i < 7; i++) {
+                    const checkIndex = (index - i + 7) % 7;
+                    if (habit.history[checkIndex]) {
+                        newStreak++;
+                    } else {
+                        break;
+                    }
+                }
+                habit.streak = newStreak;
+                
+                saveHabits();
+                renderHabits();
+                
+                // 显示成功提示
+                alert('打卡成功！已连续坚持' + habit.streak + '天，继续加油！');
+            }
+        }
+
+        // 删除习惯
+        function deleteHabit(id) {
+            if (confirm('确定要删除这个习惯吗？')) {
+                habits = habits.filter(habit => habit.id !== id);
+                saveHabits();
+                renderHabits();
+            }
+        }
+
+        // 事件监听
+        addHabitBtn.addEventListener('click', addHabit);
+        
+        // 按回车键添加习惯
+        newHabitDesc.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addHabit();
+            }
+        });
+
+        // 页面加载时初始化
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

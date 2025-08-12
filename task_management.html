@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>任务管理 - 即刻待办</title>
+  <!-- 引入 Tailwind CSS（CDN 方式） -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入 Font Awesome 图标 -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind 自定义主题配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            apple: {
+              blue: '#0071e3',   // 主色
+              gray: '#f5f5f7',   // 背景色
+              text: '#1d1d1f',   // 主文本色
+              subtext: '#6e6e73' // 辅助文本色
+            }
+          },
+          fontFamily: {
+            sans: [
+              '-apple-system', 
+              'BlinkMacSystemFont', 
+              'Segoe UI', 
+              'Roboto', 
+              'Helvetica Neue', 
+              'Arial', 
+              'sans-serif'
+            ]
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- 自定义样式（可选，用于增强交互） -->
+  <style type="text/tailwindcss">
+    /* 任务项悬停动画 */
+    .task-item {
+      @apply transition-colors hover:bg-gray-50;
+    }
+    /* 输入框聚焦样式 */
+    .task-input:focus {
+      @apply border-apple-blue ring-apple-blue/20;
+    }
+  </style>
+</head>
+
+<body class="bg-apple-gray min-h-screen font-sans">
+  <!-- 顶部导航栏（返回主页） -->
+  <header class="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-10">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <!-- 返回主页按钮 -->
+      <div class="flex items-center space-x-2">
+        <a href="index.html" class="text-apple-text hover:text-apple-blue transition-colors">
+          <i class="fa fa-arrow-left text-lg"></i>
+        </a>
+        <i class="fa fa-check-square-o text-apple-blue text-xl"></i>
+        <span class="text-apple-text font-medium text-lg">即刻待办</span>
+      </div>
+      <!-- 搜索/个人中心（演示用，无实际功能） -->
+      <div class="flex items-center space-x-6">
+        <a href="#" class="text-apple-text hover:text-apple-blue transition-colors" aria-label="搜索">
+          <i class="fa fa-search text-lg"></i>
+        </a>
+        <a href="#" class="text-apple-text hover:text-apple-blue transition-colors" aria-label="个人中心">
+          <i class="fa fa-user-o text-lg"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主要内容区 -->
+  <main class="container mx-auto px-4 py-8 md:py-12">
+    <h1 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-apple-text leading-tight mb-4">任务管理</h1>
+    <p class="text-apple-subtext mb-8">轻松管理待办，让每一天更高效</p>
+
+    <!-- 新建待办区域 -->
+    <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+      <div class="flex items-center space-x-4">
+        <!-- 输入框 -->
+        <input
+          type="text"
+          id="newTask"
+          class="task-input flex-1 border border-gray-300 rounded-xl px-4 py-2 focus:outline-none"
+          placeholder="输入新任务（如：完成工作报告）"
+        />
+        <!-- 新增按钮 -->
+        <button
+          id="addTaskBtn"
+          class="bg-apple-blue text-white px-5 py-2 rounded-xl hover:bg-apple-blue/90 transition-colors"
+        >
+          新增任务
+        </button>
+      </div>
+    </div>
+
+    <!-- 任务列表 -->
+    <div class="bg-white rounded-2xl shadow-sm p-6">
+      <h2 class="text-lg font-medium text-apple-text mb-4">我的任务</h2>
+      <ul id="taskList" class="space-y-2">
+        <!-- 初始任务示例（可删除，仅演示） -->
+        <li class="task-item flex items-center justify-between px-4 py-3 border-b border-gray-200">
+          <div class="flex items-center space-x-2">
+            <input type="checkbox" class="form-checkbox h-5 w-5 text-apple-blue" />
+            <span class="text-apple-text line-through:opacity-50">完成代码优化</span>
+          </div>
+          <button
+            class="text-apple-subtext hover:text-red-500 transition-colors"
+            onclick="deleteTask(this)"
+          >
+            <i class="fa fa-trash"></i> 删除
+          </button>
+        </li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- 底部导航（移动端可见，演示用） -->
+  <footer class="bg-white border-t border-gray-200 py-4 fixed bottom-0 left-0 right-0 md:hidden">
+    <div class="flex justify-around">
+      <a href="index.html" class="flex flex-col items-center py-2 text-apple-subtext">
+        <i class="fa fa-home text-lg"></i>
+        <span class="text-xs mt-1">首页</span>
+      </a>
+      <a href="task-management.html" class="flex flex-col items-center py-2 text-apple-blue">
+        <i class="fa fa-list-ul text-lg"></i>
+        <span class="text-xs mt-1">任务</span>
+      </a>
+      <a href="habit-building.html" class="flex flex-col items-center py-2 text-apple-subtext">
+        <i class="fa fa-calendar text-lg"></i>
+        <span class="text-xs mt-1">习惯</span>
+      </a>
+      <a href="#" class="flex flex-col items-center py-2 text-apple-subtext">
+        <i class="fa fa-user-o text-lg"></i>
+        <span class="text-xs mt-1">我的</span>
+      </a>
+    </div>
+  </footer>
+
+  <!-- JavaScript 交互逻辑 -->
+  <script>
+    // 1. 监听“新增任务”按钮点击
+    const addTaskBtn = document.getElementById('addTaskBtn');
+    const newTaskInput = document.getElementById('newTask');
+    const taskList = document.getElementById('taskList');
+
+    addTaskBtn.addEventListener('click', () => {
+      const taskText = newTaskInput.value.trim();
+      if (taskText === '') return; // 空内容不新增
+
+      // 2. 创建新任务项 DOM
+      const newTask = document.createElement('li');
+      newTask.className = 'task-item flex items-center justify-between px-4 py-3 border-b border-gray-200';
+      newTask.innerHTML = `
+        <div class="flex items-center space-x-2">
+          <input type="checkbox" class="form-checkbox h-5 w-5 text-apple-blue" />
+          <span class="text-apple-text">${taskText}</span>
+        </div>
+        <button
+          class="text-apple-subtext hover:text-red-500 transition-colors"
+          onclick="deleteTask(this)"
+        >
+          <i class="fa fa-trash"></i> 删除
+        </button>
+      `;
+
+      // 3. 添加到任务列表
+      taskList.appendChild(newTask);
+      newTaskInput.value = ''; // 清空输入框
+    });
+
+    // 3. 删除任务函数（通过 onclick 绑定）
+    function deleteTask(button) {
+      const confirmDelete = window.confirm('确定删除该任务吗？');
+      if (confirmDelete) {
+        button.closest('li').remove(); // 找到父级 li 并删除
+      }
+    }
+
+    // 4. 可选：按回车键新增任务
+    newTaskInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        addTaskBtn.click(); // 模拟点击新增按钮
+      }
+    });
+  </script>
+</body>
+</html>
